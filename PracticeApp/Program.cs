@@ -39,17 +39,38 @@ namespace PracticeApp
             //DuplicateFileRemover duplicateFileRemover = new DuplicateFileRemover();
             //duplicateFileRemover.DuplicateRemover();
 
-            BinaryGap b = new BinaryGap();
-
+            Codility b = new Codility();
             Console.WriteLine(string.Format("gaps are {0}", b.FindGap(1041)));
             Console.WriteLine(string.Format("gaps are {0}", b.FindGap(529)));
             Console.WriteLine(string.Format("gaps are {0}", b.FindGap(32)));
 
             Console.WriteLine(string.Format("gaps are {0}", b.FindGap(2342)));
+            int[] A = { 4, 5 };
+            int odd = b.FindOddByPower(A);
+            Console.WriteLine("odd is " + odd);
 
+
+
+           int jumpCount = b.FrogJump(10, 85, 30);
+            Console.WriteLine(string.Format("Jump Count {0}", jumpCount));
+            int []B = {2,3};
+            Console.WriteLine(string.Format("Missing Param {0}", b.MissingParm(B)));
+
+            Console.WriteLine(string.Format("Factorial {0}", b.Factorial(3)));
+
+
+            Console.WriteLine(string.Format("Sequence {0}", b.Sequence(10)));
+
+            Console.WriteLine(string.Format("Fabbonacci {0}", b.Fabonacci(4)));
+
+
+Console.WriteLine(string.Format("Bracess {0}", b.checkBraces("{{6}+[5*(4)]}")));
 
 
         }
+
+
+
 
 
     }
