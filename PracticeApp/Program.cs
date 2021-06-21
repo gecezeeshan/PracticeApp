@@ -28,9 +28,15 @@ namespace PracticeApp
             //duplicateFileRemover.DuplicateRemover();
 
             Miscellaneous b = new Miscellaneous();
-            b.Test();
+            int[] A = { 5, 4,  2, 3 };
+            //Console.WriteLine( b.MissingSmallParm(A));
 
+            //CyclicRotation cyclic = new CyclicRotation();
+            //cyclic.Test();
+            //PermCheck perm = new PermCheck();
+            //perm.solution(A);
 
+            b.FormatString();
         }
 
 

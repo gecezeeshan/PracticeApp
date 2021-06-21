@@ -9,6 +9,8 @@ namespace Codility
 			uint
 				expected = (uint)((A.Length + ((A.Length + 1) % 2)) * Math.Ceiling(A.Length / 2.0)),
 				sum = 0;
+			//7, 8 = 9, 9 = 9, 10 = 11;5
+			
 			HashSet<int> digits = new HashSet<int>(A);
 			if (digits.Count != A.Length)
 				return 0;

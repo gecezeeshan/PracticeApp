@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace Codility
 {
-	public class Solution
+
+	public class StoneWall
 	{
 		public int solution(int[] H)
 		{

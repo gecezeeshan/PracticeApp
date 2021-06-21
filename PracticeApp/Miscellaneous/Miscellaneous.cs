@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Codility
 {
@@ -113,7 +115,8 @@ namespace Codility
         }
         public int MissingSmallParm(int[] A)
         {
-            int N = A.Length, res = 1; bool found = false;
+            //https://app.codility.com/c/feedback/demoCC42W3-SWB/
+            int N = A.Length, res = 1;
             HashSet<int> coll = new HashSet<int>();
             for (int a = 0; a < N; a++)
             {
@@ -122,12 +125,14 @@ namespace Codility
                     coll.Add(A[a]);
                 }
             }
-            for (int i = 1; i <= N + 1 && !found; i++)
+
+
+            for (int i = 1; i <= N + 1; i++)
             {
 
                 if (!coll.Contains(i))
                 {
-                    res = i; found = true;
+                    res = i; break;
                 }
 
             }
@@ -242,7 +247,8 @@ namespace Codility
 
         }
 
-        public void Test() {
+        public void Test()
+        {
             Console.WriteLine(string.Format("gaps are {0}", FindGap(1041)));
             Console.WriteLine(string.Format("gaps are {0}", FindGap(529)));
             Console.WriteLine(string.Format("gaps are {0}", FindGap(32)));
@@ -271,5 +277,200 @@ namespace Codility
             int[] distinctArr = { 1, 3, 1, 2, 3 };
             Console.WriteLine(string.Format("Missing Param {0}", Distinct(distinctArr)));
         }
+
+
+        public void FormatString()
+        {
+            string S = "0 - 22 1985--324";
+
+            //S = Regex.Replace(S, @"\-", "");
+            //S = Regex.Replace(S, @"\s", "");
+            //string formatted = "";
+            //if (S.Length == 14)
+            //{
+            //    for (int i = 0; i < S.Length; i++)
+            //    {
+            //        formatted += S[i];
+            //        if (((i % 3) == 2) && i != S.Length - 1)
+            //        {
+            //            formatted += "-";
+            //        }
+            //    }
+            //}
+
+            S = removeNonDigits(S);
+            S =  formatPhoneNumber(S, checkNumberSize(S));
+            Console.WriteLine(S);
+
+        }
+
+
+        private Boolean checkNumberSize(String phoneNumber)
+        {
+            return phoneNumber.Length % 3 == 1;
+        }
+
+        private String removeNonDigits(String s)
+        {
+            return s.Replace("[^0-9]", "");
+        }
+
+        private String formatPhoneNumber(String s, bool lastGroup)
+        {
+            String tempNumber = "";
+            int dashCounter = 0;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (dashCounter < 3)
+                {
+                    tempNumber = string.Concat(tempNumber,s.Substring(i, i + 1));
+                }
+                else if (dashCounter == 3)
+                {
+                    tempNumber += "-";
+                    tempNumber = string.Concat(tempNumber, s.Substring(i, i + 1));
+                    dashCounter = 1;
+                }
+            }
+            if (lastGroup)
+            {
+                char[] temp = tempNumber.ToCharArray();
+                temp[temp.Length - 2] = temp[temp.Length - 3];
+                temp[temp.Length - 3] = '-';
+                tempNumber = new String(temp);
+            }
+            return tempNumber;
+        }
+
+
+
+        public String SearchNumber(String[] A, String[] B, String P)
+        {
+
+            List<String> sortedContacts = new List<string>();
+            for (int i = 0; i < B.Length; i++)
+                if (B[i].Contains(P))
+                    sortedContacts.Add(A[i]);
+
+            sortedContacts.Sort();
+
+            return sortedContacts.Count == 0 ? "NO CONTACT" :   sortedContacts[0];
+        }
+
+
+       public class Graph
+        {
+            private int V; // No. of vertices
+            private LinkedList<int>[] adj; //Adjacency List
+
+            // Constructor
+            public Graph(int v)
+            {
+                V = v;
+                adj = new LinkedList<int>[v];
+                for (int i = 0; i < v; ++i)
+                    adj[i] = new LinkedList<int>();
+            }
+
+            // Function to add an edge into the graph
+            public void addEdge(int v, int w)
+            {
+                adj[v].AddLast(w);
+            }
+
+            // prints BFS traversal from a given source s
+           public  bool isReachable(int s, int d)
+            {
+                // LinkedList<int> temp = new LinkedList<int>();
+
+                // Mark all the vertices as not visited(By default set
+                // as false)
+                bool[] visited = new bool[V];
+
+                // Create a queue for BFS
+                LinkedList<int> queue = new LinkedList<int>();
+
+                // Mark the current node as visited and enqueue it
+                visited[s] = true;
+                queue.AddLast(s);
+
+                // 'i' will be used to get all adjacent vertices of a vertex
+                IEnumerator i;
+                while (queue.Count != 0)
+                {
+
+                    // Dequeue a vertex from queue and print it
+                    s = queue.First.Value;
+                    queue.RemoveFirst();
+                    int n;
+                    i = adj[s].GetEnumerator();
+
+                    // Get all adjacent vertices of the dequeued vertex s
+                    // If a adjacent has not been visited, then mark it
+                    // visited and enqueue it
+                    while (i.MoveNext())
+                    {
+                        n = (int)i.Current;
+
+                        // If this adjacent node is the destination node,
+                        // then return true
+                        if (n == d)
+                            return true;
+
+                        // Else, continue to do BFS
+                        if (!visited[n])
+                        {
+                            visited[n] = true;
+                            queue.AddLast(n);
+                        }
+                    }
+                }
+
+                // If BFS is complete without visited d
+                return false;
+            }
+
+
+        }
+
+        public bool GraphSol(int N, int[] A, int[] B)
+        {
+            Graph g = new Graph(N);
+            for (int i = 0; i < N; i++)
+            {
+                g.addEdge(A[i], B[i]);
+            }
+            bool notFound = false;
+
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    if (!g.isReachable(i, j))
+                    {
+                        notFound = true;
+
+                        break;
+                    }
+                }
+            }
+
+            return notFound;
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
